@@ -1,1 +1,1 @@
-# web
+# COMP523EdibleCampus
