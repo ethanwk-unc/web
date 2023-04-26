@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Apple Maps on iPad Safari</title>
+</head>
+<body>
+  <h1>Test Apple Maps on iPad Safari</h1>
+  <button id="navigateButton">Navigate</button>
+  
+  <script>
+    const gardenCoords = [37.7749, -122.4194]; // Example coordinates (San Francisco)
+
+    function initiateNavigation(userLatitude, userLongitude) {
+      const latitude = gardenCoords[0];
+      const longitude = gardenCoords[1];
+
+      const googleMapsWebUrl = `https://maps.google.com/?saddr=${userLatitude},${userLongitude}&daddr=${latitude},${longitude}&dirflg=w`;
+      const googleMapsAppUrl = `https://maps.google.com/maps?saddr=${userLatitude},${userLongitude}&daddr=${latitude},${longitude}&dirflg=w`;
+      const appleMapsWebUrl = `http://maps.apple.com/?saddr=${userLatitude},${userLongitude}&daddr=${latitude},${longitude}&dirflg=w`;
+      const appleMapsAppUrl = `maps://maps.apple.com/?saddr=${userLatitude},${userLongitude}&daddr=${latitude},${longitude}&dirflg=w&t=m`;
+
+      const isChrome = /CriOS/i.test(navigator.userAgent);
+
+      if (/iPhone|iPod/i.test(navigator.userAgent)) {
+        // If on iPhone or iPod, try to open Apple Maps app
+        window.open(appleMapsAppUrl, "_blank");
+        setTimeout(() => {
+          // If the Apple Maps app is not installed or did not open, fallback to Google Maps app
+          if (!document.hidden) {
+            window.open(googleMapsAppUrl, "_blank");
+            setTimeout(() => {
+              // If the Google Maps app is not installed or did not open, fallback to Google Maps in the browser
+              if (!document.hidden) {
+                window.open(googleMapsWebUrl, "_blank");
+              }
+            }, 2500000);
+          }
+        }, 25000000);
+      } else if (/iPad/i.test(navigator.userAgent)) {
+        if (isChrome) {
+          // If on iPad and using Chrome, try to open Apple Maps in the browser
+          window.open(appleMapsWebUrl, "_blank");
+          setTimeout(() => {
+            // If Apple Maps did not open, fallback to Google Maps in the browser
+            if (!document.hidden) {
+              window.open(googleMapsWebUrl, "_blank");
+            }
+          }, 25);
+        } else {
+          // If on iPad and not using Chrome, open Apple Maps web URL
+          window.open(appleMapsWebUrl, "_blank");
+        }
+      } else if (/Android/i.test(navigator.userAgent)) {
+        // If on Android, try to open Google Maps app
+        window.open(googleMapsAppUrl, "_blank");
+        setTimeout(() => {
+          // If the Google Maps app is not installed or did not open, fallback to Google Maps in the browser
+          if (!document.hidden) {
+            window.open(googleMapsWebUrl, "_blank");
+          }
+        }, 25);
+      } else {
+        // If not on iOS or Android, open Google Maps in the browser
+        window.open(googleMapsWebUrl, "_blank");
+      }
+    }
+
+     document.getElementById('navigateButton').addEventListener('click', () => {
+      // Replace 40.7128 and -74.0060 with the user's actual latitude and longitude
+      initiateNavigation(40.7128, -74.0060);
+    });
+  </script>
+</body>
+</html>
+

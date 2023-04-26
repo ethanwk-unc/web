@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Start of Head section -->
+
+<head>
+  <title>Edible Garden UNC</title>
+  <meta charset="UTF-8" />
+
+  <script src="lib/xlsx.full.min.js"></script>
+
+  <script src="/js/jquery.js"></script>
+  <link rel="stylesheet" href="/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="/css/owl.theme.css">
+  <script src="/js/owl.carousel.js"></script>
+
+  <link href="css/gardenContent.css" rel="stylesheet" />
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+
+  <!-- Add Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <!-- Add Leaflet Routing Machine -->
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+
+  <!-- Add the Leaflet Routing Machine CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+  <!-- Set the viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Load the custom CSS file -->
+  <link href="css/test.css" rel="stylesheet" />
+  <link href="css/menu_popup.css" rel="stylesheet" />
+  <!-- Load the Font Awesome icons -->
+  <script src="https://kit.fontawesome.com/72cea44b3e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/comment-area.css" />
+
+  <!-- google recaptcha  -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+</head>
+<!-- End of Head section -->
+
+<!-- Start of Body section -->
+
+<body>
+  <!-- Top section -->
+  <div id="top">
+    <!-- Social icons section -->
+    <div id="social-icons">
+      <a href="http://www.facebook.com/NCBotanicalGarden" target="_blank" aria-label="Botanical Garden Facebook"><i
+          class="fab fa-facebook-f fa-xl"></i></a>
+      <a href="https://twitter.com/ncbotgarden" target="_blank" aria-label="Botanical Garden Twitter"><i
+          class="fab fa-twitter fa-xl"></i></a>
+      <a href="https://www.instagram.com/ncbotanicalgarden/" target="_blank" aria-label="Botanical Garden Instagram"><i
+          class="fab fa-instagram fa-xl"></i></a>
+    </div>
+    <!-- Search bar section -->
+    <div id="search-bar">
+      <!-- Search form -->
+      <form method="get" id="searchform" action="https://ncbg.unc.edu/outreach/edible-campus-unc/" role="search">
+        <input type="text" placeholder="Search..." name="s" />
+        <button type="submit"><i class="fa fa-search fa-xl"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for instructions -->
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Welcome to the Edible Garden UNC (M)App!</h3>
+      <p>
+        This application allows you to explore different gardens and learn about the plants in each garden, their
+        harvest information, and some delicious recipes. Here's how to get started:
+      </p>
+
+      <p>1. Use the interactive map to select a garden by choosing a garden from the
+        dropdown menu.</p>
+      <p>
+        2. When you select a garden from the dropdown menu, the map will center on the garden with a popup label, and a
+        "Navigate with Google Maps" button will appear.</p>
+      <P>3. Click the "Navigate with Google Maps" button to get a routing path to the selected garden using the Google
+        Maps app.</P>
+      <p>4. Once you've selected a garden, the plants in that garden will be displayed below the map in a horizontal
+        carousel.</p>
+      <p>5. Drag the carousel horizontally to view more plants in the selected garden.</p>
+      <p>6. To learn more about a specific plant, read the provided harvest information and try out the suggested
+        recipes.</p>
+      <p>7. To explore a different garden, simply choose another garden
+        from the dropdown menu, and the plants for the new garden will be displayed.</p>
+      <p>8. Share your thoughts, feedback, or questions about the gardens and plants by leaving a comment in the comment
+        area.</p>
+      <p>We hope you enjoy using the Edible Garden UNC (M)App and discover new plants and recipes to try in your own
+        garden. Don't forget to share your experiences with others in the comment section. Happy gardening!</p>
+      <p>Remember, you can always access these help instructions by clicking on the 'Edible Garden UNC' logo in the
+        top-right corner of the page.</p>
+    </div>
+  </div>
+
+
+
+
+  <!-- Navbar section -->
+  <div id="navbar">
+    <img src="./img/eclogo.jpg" alt="eclogo" id="logo" />
+
+
+    <div class="dropdown">
+      <button class="dropbtn" id="menuButton">Choose Gardens</button>
+      <div class="dropdown-content">
+        <a href="#" class="garden-button" data-garden="Main Garden" id="centerMainGarden">Main Garden</a>
+        <a href="#" class="garden-button" data-garden="Lenoir Garden" id="centerLenoir">Lenoir</a>
+        <a href="#" class="garden-button" data-garden="Graham Garden" id="centerGraham">Graham</a>
+        <a href="#" class="garden-button" data-garden="Stacy Garden" id="centerStacy">Stacy</a>
+        <a href="#" class="garden-button" data-garden="Davis Garden" id="centerDavis">Davis</a>
+        <a href="#" class="garden-button" data-garden="Rams Head Plaza Garden" id="centerRamsHeadPlaza">Rams Head
+          Plaza</a>
+        <a href="#" class="garden-button" data-garden="SASB Plaza Garden" id="centerSASBPlaza">SASB Plaza</a>
+        <a href="#" class="garden-button" data-garden="Hardin Garden" id="centerHardin">Hardin</a>
+        <a href="#" class="garden-button" data-garden="Fetzer Garden" id="centerFetzer">Fetzer</a>
+      </div>
+    </div>
+
+    <!-- Add garden links for wider screens -->
+    <a href="#" class="garden-link" data-garden="Main Garden">Main Garden</a>
+    <a href="#" class="garden-link" data-garden="Lenoir Garden">Lenoir Garden</a>
+    <a href="#" class="garden-link" data-garden="Graham Garden">Graham Garden</a>
+    <a href="#" class="garden-link" data-garden="Stacy Garden">Stacy Garden</a>
+    <a href="#" class="garden-link" data-garden="Davis Garden">Davis Garden</a>
+    <a href="#" class="garden-link" data-garden="Rams Head Plaza Garden">Rams Head Plaza Garden</a>
+    <a href="#" class="garden-link" data-garden="SASB Plaza Garden">SASB Plaza Garden</a>
+    <a href="#" class="garden-link" data-garden="Hardin Garden">Hardin Garden</a>
+    <a href="#" class="garden-link" data-garden="Fetzer Garden">Fetzer Garden</a>
+  </div>
+
+  <script src="js/modal.js"></script>
+
+  <!-- Map section -->
+  <div id="map"></div>
+  <script src="js/map.js"></script>
+
+  <!-- <script  type="module" src="js/indexScript.js"></script> -->
+
+  <script type="module" src="js/menu_popup.js"></script>
+  <script type="module" src="js/iniNav.js"></script>
+
+  <div id="description">
+    <div class="container">
+      <div id="gardenContent">
+        <div class="garden-title"></div>
+        <div class="owl-carousel">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comments section -->
+  <div id="comments-section">
+    <h3>Recent Comments:</h3>
+    <div id="comments-list"></div>
+  </div>
+  <script src="js/displayComments.js" type="module"></script>
+
+  <div class="comment-area">
+    <form id="comment-form">
+
+      <div class="g-recaptcha" data-sitekey="none"></div>
+
+      <label for="comment" style="color: white"></label>
+
+      <textarea id="comment" name="comment"></textarea>
+
+      <input type="submit" value="Submit Your Comment" />
+    </form>
+  </div>
+
+  <script src="js/submitComment.js" type="module"></script>
+
+  <!-- About section -->
+  <div id="about">
+    <img src="img/logo-footer.svg" alt="eclogo" id="logo"/>
+    <div class="about-section">
+        <h3>GET IN TOUCH</h3>
+        <p>Tuesday - Saturday, 9 a.m. - 5 p.m.</p>
+        <p>Sunday, 1 - 5 p.m.</p>
+    </div>
+
+    <div class="about-section">
+        <h3>VISIT NCBG</h3>
+        <p>100 Old Mason Farm Road,</p>
+        <p>Chapel Hill, NC 27517</p>
+        <a href="https://ncbg.unc.edu/venue/botanical-garden/">Get Directions</a><br>
+        <a href="https://ncbg.unc.edu/visit/visitor-safety/"> Visitor Safety</a>
+    </div>
+
+    <div class="about-section">
+        <h3>GET IN TOUCH</h3>
+        <p>Phone: 919-962-0522</p>
+        <p>Fax: 919-962-3531</p>
+        <a href="https://ncbg.unc.edu/contact-us/">Contact Us</a><br>
+        <a href="https://ncbg.unc.edu/subscribe/">Subscribe to eNewsletter</a>
+    </div>
+    <img src="img/plant-texture-right-2.jpg" id="pR"/>
+    <img src="img/plant-texture-left-2.jpg" id="pL"/>
+  </div>
+  <div id="spacer">© 2023 North Carolina Botanical Garden</div>
+</div>
+</body>
+<!-- End of Body section -->
+
+</html>
